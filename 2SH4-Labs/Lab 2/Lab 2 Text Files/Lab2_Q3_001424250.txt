@@ -1,0 +1,53 @@
+/*
+name: Alex Austin
+Lab Section: 03
+Student ID: 001424250
+Lab: 2
+Question: 3
+*/
+
+#include <stdio.h>
+#include <stdlib.h>
+#include <math.h>
+
+#define N 5
+
+int is_toeplitz(int a[][N], int m);
+
+int main(void) 
+{
+    int result1,result2;
+    
+    const int mat1[4][N] =
+   {{9, 2, 1, 0, 4},
+    {7, 9, 2, 1, 0},
+    {3, 7, 9, 2, 1},
+    {6, 3, 7, 9, 2}};
+
+    const int mat2[4][N] =
+   {{9, 2, 1, 0, 6},
+    {7, 9, 2, 1, 3},
+    {2, 5, 8, 2, 1},
+    {6, 3, 7, 9, 2}};
+    
+    result1 = is_toeplitz(mat1,4);
+    result2 = is_toeplitz(mat2,4);
+    
+    printf("%s\n", result1 == 1?"The Matrix is toeplitz":"The Matrix is not toeplitz");//choosing the correct statement based on the result
+    printf("%s\n", result2 == 1?"The Matrix is toeplitz":"The Matrix is not toeplitz");
+    return 0;           
+}
+
+int is_toeplitz(int a[][N], int m)
+{
+    for (int i=0;i<(m-1);i++)
+    {
+        for (int j=0;j<(N-1);j++)//only loops to one column and row smaller than the actual size
+        {
+            if((a[i][j])==(a[i+1][j+1]))//checks the diagonal number to see if it is the same
+                continue;
+            return 0;//fails if its not equal
+        }
+    }
+return 1;//if its satisfied at every location it returns true
+}

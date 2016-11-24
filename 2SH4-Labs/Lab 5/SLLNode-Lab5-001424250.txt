@@ -1,0 +1,19 @@
+/*
+name: Alex Austin
+Lab Section: 03
+Student ID: 001424250
+Lab: 5
+Question: 1
+*/
+
+public class SLLNode 
+{
+    int value;
+    SLLNode next;
+    
+    public SLLNode(int i, SLLNode n)
+    { 
+        value = i; 
+        next = n;
+    }        
+}

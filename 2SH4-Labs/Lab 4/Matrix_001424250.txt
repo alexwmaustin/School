@@ -1,0 +1,161 @@
+name: Alex Austin
+Lab Section: 03
+Student ID: 001424250
+Lab: 4
+Question: 1
+
+
+public class Matrix{
+    
+
+	private int[][]  matrixData;	// integer array to store integer data
+	private int  rowsNum;	// number of rows
+	private int  colsNum;	// number of columns
+	
+	public Matrix( int row, int col ) //constructor1
+	{   
+            
+            colsNum = col;
+            rowsNum = row;
+            
+                if(row <= 0)
+                {
+                    rowsNum = 3;
+                }
+                if(col <= 0)
+                {
+                    colsNum = 3;
+                }
+                matrixData = new int[rowsNum][colsNum];
+                
+                for(int i=0;i<row;i++)
+                {
+                    for(int j=0;j<col;j++)
+                    {
+                        matrixData[i][j]=0;
+                    }
+                }    
+	}
+                
+	
+	public Matrix( int[][] table) // constructor2
+	{	
+		/* constructs a matrix out of the two dimensional array table, 
+		   with the same number of rows, columns, and the same element in each
+		 position as array table. */	
+		
+		rowsNum = table.length;
+		colsNum = table[0].length;
+		matrixData = new int[rowsNum][colsNum]; // allocates memory for the 2D array
+		//loop to fill the array with values:
+		for (int i=0; i<rowsNum; i++)
+			for(int j=0; j<colsNum; j++)
+				matrixData[i][j] = table[i][j];
+	
+	}//end second constructor 
+	
+	public int getRows(){return rowsNum;}
+        public int getCol(){return colsNum;}   
+        public int[][] getMatrixData(){return matrixData;}
+        
+	public int getElement(int i, int j) throws IndexOutOfBoundsException
+	{ 	
+		/* if i and j are valid indices of this matrix, 
+		   then the element on row i and column j of this matrix
+		   is returned; otherwise it throws an exception with message "Invalid indexes".*/
+		
+		if  ( i < rowsNum && j < colsNum ) {
+			return matrixData[i][j];
+		}
+		else {
+			throw new IndexOutOfBoundsException("Invalid indexes.");
+		}
+	  
+	}//end getElement
+        public boolean setElement(int x, int i, int j)
+        {
+            if  ( i < rowsNum && j < colsNum ) 
+            {
+		matrixData[i][j] = x;
+                return true;
+            }
+            else
+            {
+                return false;
+            }
+        }
+        
+	public Matrix copy()
+	{ /* returns a deep copy of this Matrix */
+            return new Matrix(this.matrixData);
+	}//end copy
+
+        public void addTo( Matrix m ) throws ArithmeticException
+	{
+		/*adds Matrix m to this Matrix; it throws an exception message "Invalid operation"
+		  if the matrix addition is not defined*/
+
+		if ( m.rowsNum==rowsNum&&m.colsNum==colsNum) {
+			for (int i=0; i<rowsNum; i++)
+                            for(int j=0; j<colsNum; j++)
+				matrixData[i][j] += m.matrixData[i][j];
+		}
+		else {
+			throw new ArithmeticException("Invalid operation");
+		}
+
+	}
+	public Matrix subMatrix(int i, int j) throws ArithmeticException
+        {
+            if( i < rowsNum && j < colsNum ) 
+            {
+			Matrix subM = new Matrix(i+1,j+1);
+                        for (int x=0; x <=i; x++)
+                            for(int y=0; y <=j; y++)
+                            {
+                                System.out.println(x+""+y);
+                                subM.matrixData[x][y]=this.matrixData[x][y];
+                            }
+                        return subM;
+            }
+            else 
+            {
+			throw new ArithmeticException("Submatrix not defined.");
+            }
+        }
+        
+        public boolean isUpperTr()
+        {
+            for (int i = 1; i < rowsNum; ++i) // rows
+                for (int j = 0; j < i; ++j)
+                    if(matrixData[i][j] != 0)
+                        return false;
+            return true;
+        }
+        
+        public static Matrix sum(Matrix[] matArray)throws ArithmeticException
+        {
+            Matrix addMatrix = new Matrix(2,2);
+            
+            for(int i =0;i < matArray.length;i++)
+                addMatrix.addTo(matArray[i]);
+            
+            return addMatrix;
+            
+        }
+        
+	public String toString(  )
+	{
+		/* returns a string representing the matrix, 
+		   with each row on a line, and the elements in each row being separated by 2 blank spaces. */
+		
+		String output = new String(); // creates an empty string
+        	for(int i = 0; i < rowsNum; i++){
+                    for(int j = 0; j < colsNum; j++){
+        		output += matrixData[i][j] + "  ";
+        		}
+        	output += "\n";
+        	}
+       		 return output;
+
+	}

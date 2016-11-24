@@ -1,0 +1,211 @@
+/*
+name: Alex Austin
+Lab Section: 03
+Student ID: 001424250
+Lab: 5
+Question: 1
+*/
+
+package question1;
+public class SLLSet 
+{
+    private int size;
+    private SLLNode head;
+    
+    public SLLSet()
+    {
+        size = 0;
+        head = new SLLNode(size, null);
+        
+    }
+    public SLLSet(int[] sortedArray)
+    {
+        size = sortedArray.length;
+        head  = new SLLNode(size,null);
+        SLLNode p = head;
+        
+        for(int i = 0; i < sortedArray.length;i++)
+        {
+            p.next = new SLLNode(sortedArray[i],null);
+            p = p.next;      
+        }
+    }
+    
+    public int getSize()
+    {
+       return size;
+    }
+    public SLLSet copy()
+    {
+        SLLSet cop = new SLLSet();
+        
+        SLLNode c=cop.head;
+        cop.size = size;
+        
+        for(SLLNode p = head; p.next != null; p = p.next,c=c.next)
+        {
+            c.next = new SLLNode(p.next.value,null);
+        }
+        return cop;
+    }
+    public boolean isIn(int v)
+    {
+        for(SLLNode p = head; p.next != null; p = p.next)
+        {
+            if(p.next.value == v)
+                return true;
+        }
+        return false;
+    }
+    public void add(int v)
+    {
+        SLLNode p;
+        for(p = head; p.next != null; p = p.next)
+        {
+            if(v < p.next.value)
+            {
+                p.next = new SLLNode(v,p.next);
+                size++;
+                return;
+            }
+            
+            else if(v == p.next.value)
+                return;
+        }
+        p.next = new SLLNode(v,null);
+        size++;
+    }
+    
+    public void remove(int v)
+    {
+        SLLNode p;
+        for(p = head; p.next != null; p = p.next)
+        {
+            if(v == p.next.value)
+            {
+                p.next = p.next.next;
+                size--;
+                return;
+            }
+        }
+    }
+    public SLLSet union(SLLSet s)
+    {
+        SLLSet Union = new SLLSet();
+        
+        SLLNode p=this.head,q=s.head,u=Union.head;
+        
+        while(p.next!=null&&q.next!=null)
+        {
+            if(p.next.value < q.next.value)
+            {
+                u.next = new SLLNode(p.next.value,null);
+                Union.size++;
+                p = p.next;
+                u = u.next;
+            }
+            else if(p.next.value > q.next.value)
+            {
+                u.next = new SLLNode(q.next.value,null);
+                Union.size++;
+                q = q.next;
+                u = u.next;
+            }
+            else if(p.next.value == q.next.value)
+            {
+                u.next = new SLLNode(q.next.value,null);
+                Union.size++;
+                q = q.next;
+                p = p.next;
+                u = u.next;
+            }
+        }
+        if(p.next == null)
+        {
+            while(q.next != null)
+            {
+                u.next = new SLLNode(q.next.value,null);
+                Union.size++;
+                q = q.next;
+                u = u.next;
+            }
+        }
+        else
+        {
+            while(p.next != null)
+            {
+                u.next = new SLLNode(p.next.value,null);
+                Union.size++;
+                p = p.next;
+                u = u.next;
+            }
+        }
+        return Union;
+    }
+    public SLLSet intersection(SLLSet s)
+    {
+        SLLSet Intersect = new SLLSet();
+        
+        SLLNode p=this.head,q=s.head,i=Intersect.head;
+        
+        while(p.next!=null&&q.next!=null)
+        {
+            if(p.next.value == q.next.value)
+            {
+                i.next = new SLLNode(q.next.value,null);
+                q = q.next;
+                p = p.next;
+                i = i.next;
+                Intersect.size++;
+            }
+            else if(p.next.value < q.next.value)
+            {
+                p = p.next;
+            }
+            else if(p.next.value > q.next.value)
+            {
+                q = q.next;
+            }
+        }
+        return Intersect;
+        
+    }
+    public SLLSet difference(SLLSet s)
+    {
+        SLLSet Difference = new SLLSet();
+        
+        SLLNode p=this.head,q=s.head,d=Difference.head;
+        
+        for(p = head; p.next != null; p = p.next)
+        {
+           if(s.isIn(p.next.value)==false)
+           {
+               d.next =  new SLLNode(p.next.value,null);
+               d = d.next;
+               Difference.size++;
+           }
+           
+        }
+        return Difference;
+    }
+    public static SLLSet union( SLLSet[] sArray)
+    {
+        SLLSet Union = new SLLSet();
+        
+        for(SLLSet i:sArray)
+        {
+            Union = Union.union(i);
+        }
+        return Union;
+    }
+    public String toString()
+    {
+        String output = new String();
+        
+        for(SLLNode p = head;p.next != null; p = p.next)
+        {
+            output += p.next.value + " ";
+        }
+        return output;
+        
+    }

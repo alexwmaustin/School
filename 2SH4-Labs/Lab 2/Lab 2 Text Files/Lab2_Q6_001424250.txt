@@ -1,0 +1,73 @@
+/*
+name: Alex Austin
+Lab Section: 03
+Student ID: 001424250
+Lab: 2
+Question: 6
+*/
+
+#include <stdio.h>
+#include <stdlib.h>
+#include <math.h>
+
+#define N 11
+#define k 5
+
+void efficient( const int source[], int val[], int pos[], int size);
+void reconstruct( int source[], int m, const int val[], const int pos[], int n);
+void print_vector(int array[], int size);//included print function so it can print properly
+
+int main(void) 
+{
+    int vector[]={45, 0, 23, 0, -7, 0, 0, 48,9,0,0};
+    int val[k];
+    int pos[k];
+    int recnsrt[N];
+
+    efficient(vector,val,pos,N);
+    reconstruct(recnsrt,N,val,pos,k);
+    
+    return 0;
+}
+void efficient( const int source[], int val[], int pos[], int size)
+{
+    int j=0;
+    
+    for(int i = 0;i<size;i++)
+    {
+        if(source[i]!=0)//finds the non zero components and saves the value and position of the corresponding non zero component
+        {
+            val[j]=source[i];
+            pos[j]=i;
+            j++;
+            continue;
+        }
+    }
+    printf("val\t");
+    print_vector(val,k);
+    printf("pos\t");
+    print_vector(pos,k);
+
+}
+void reconstruct( int source[], int m, const int val[], const int pos[], int n)
+{
+    int j=0;
+    for(int i = 0;i<m;i++)
+    {
+        if(pos[j]== i)//checks to see if the the current pos in the source array is the same as a position in the pos array
+        {
+            source[i]=val[j];//if so it save the number in the source array
+            j++;
+        }
+        else
+            source[i]=0;//otherwise sets the component in the array to 0
+    }
+    printf("reconstructed array:\t");
+    print_vector(source,m);
+}
+void print_vector(int array[], int size)//function to print the vectors
+{
+    for (int i=0;i<size;i++)
+        printf("%d\t",array[i]);
+    printf("\n");
+}
