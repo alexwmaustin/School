@@ -17,6 +17,3 @@ public class SLLNode
         next = n;
     }        
 }
-
-
-hahahahah fuck
